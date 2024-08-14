@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- applicationContext.xml -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+                           
+                           
+    
+    <bean id="adr1" class="com.nt.dto.Address">
+        <property name="city" value="Mumbai"/>
+        <property name="state" value="MH"/>
+    </bean>
+    
+    <!-- In case we do not want this bean to take part in auto wiring -->
+    <bean id="adr" class="com.nt.dto.Address" autowire-candidate="false">
+        <property name="city" value="Pune"/>
+        <property name="state" value="MH"/>
+    </bean>
+   
+     <!-- Setting object of address using ref -->
+      <bean id="emp_ref" class="com.nt.dto.Employee">
+        <property name="id" value="101"/>
+        <property name="name" value="Sam"/>
+        <property name="salary" value="10000"/>
+        <property name="adr" ref="adr1"/>
+        
+    </bean>
+    
+    <!-- Prototype means we don't want to return same object whenever we call this bean. 
+    No objects will be created during xml file loading
+    By default bean scope is singleton -->
+     <bean id="emp_proto" class="com.nt.dto.Employee" scope="prototype">
+        <property name="id" value="101"/>
+        <property name="name" value="Sam"/>
+        <property name="salary" value="10000"/>
+        <property name="adr1" ref="adr"/>
+        
+    </bean>
+    
+    <!--Setter Injection: Autowiring by-type -->
+     <bean id="emp_byType" class="com.nt.dto.Employee" autowire = "byType">
+        <property name="id" value="102"/>
+        <property name="name" value="Ram"/>
+        <property name="salary" value="20000"/>
+        
+    </bean>
+        <!--Setter Injection: Autowiring by-name -->
+       <bean id="emp_byName" class="com.nt.dto.Employee" autowire = "byName">
+        <property name="id" value="103"/>
+        <property name="name" value="Tom"/>
+        <property name="salary" value="30000"/>
+    </bean>
+    
+     <!-- Nested Bean -->
+      <bean id="emp_nested" class="com.nt.dto.Employee">
+        <property name="id" value="101"/>
+        <property name="name" value="Sam"/>
+        <property name="salary" value="10000"/>
+        <property name="adr">
+        <bean class="com.nt.dto.Address">
+        <property name="city" value="Jammu"/>
+        <property name="state" value="JK"/>
+        </bean></property>  
+    </bean>
+    
+    <!-- constructor injection -->
+    <bean id="user_constructor" class="com.nt.dto.User">
+    <constructor-arg value="102"/>
+    <constructor-arg value="Samantha"/>
+    </bean>
+    
+</beans>
